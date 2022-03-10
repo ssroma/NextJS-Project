@@ -1,38 +1,11 @@
 import { Fragment } from "react";
-import Head from "next/head";
-import Link from "next/link";
-import classes from "./index.module.css";
-import Card from "../../components/ui/Card";
+import MeetupDetailItem from "../../components/meetups/MeetupDetailItem";
 import { MongoClient, ObjectId } from "mongodb";
 
 function MeetupDetails(props) {
-  const {title, image, address, description} = props.meetupData;
-
   return (
     <Fragment>
-      <Head>
-        <title>{title + " Meeting Up"}</title>
-        <meta name="description" content={description}  />
-      </Head> 
-      <div className={classes.detaislContainer}>
-        <Card>
-            <div className={classes.image}>
-              <img src={image} alt={title} />
-            </div>
-            <div className={classes.content}>
-              <h3>{title}</h3>
-              <address>{address}</address>
-            </div>
-            <div className={classes.content}>
-              <label htmlFor="textArea">Descriptions: </label>
-              <textarea rows="5" cols="10" readOnly id="textArea" defaultValue={description}>
-              </textarea>
-            </div>
-            <div className={classes.actions}>
-              <Link className={classes.link} href={"/"}>Back to Home Page</Link>
-            </div>
-          </Card>
-        </div>
+      <MeetupDetailItem meetupData={props.meetupData} />
     </Fragment>
   )
 }
@@ -48,8 +21,8 @@ export async function getStaticPaths() {
   client.close();
  
   return {
-    paths: meetups.map( meetup => ({params: {meetupId: meetup._id.toString() }})),
-    fallback: true
+    paths: meetups.map(meetup => ({params: {meetupId: meetup._id.toString() }})),
+    fallback: false
   }
 }
 
